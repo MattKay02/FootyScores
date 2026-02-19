@@ -3,7 +3,7 @@ const LEAGUES = {
     id: 39,
     name: "Premier League",
     slug: "premier-league",
-    season: 2024,
+    season: 2025,
   },
 };
 
