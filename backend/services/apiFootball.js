@@ -1,0 +1,64 @@
+const axios = require("axios");
+const { LEAGUES } = require("../constants/leagues");
+
+const API_BASE = "https://v3.football.api-sports.io";
+
+const apiClient = axios.create({
+  baseURL: API_BASE,
+  headers: {
+    "x-apisports-key": process.env.API_FOOTBALL_KEY,
+  },
+});
+
+const transformFixture = (entry) => {
+  const { fixture, teams, goals } = entry;
+  const [date, timePart] = fixture.date.split("T");
+
+  return {
+    fixtureId: fixture.id,
+    date,
+    time: timePart.slice(0, 5),
+    status: fixture.status.long,
+    statusShort: fixture.status.short,
+    minute: fixture.status.elapsed,
+    homeTeam: {
+      id: teams.home.id,
+      name: teams.home.name,
+      crest: teams.home.logo,
+    },
+    awayTeam: {
+      id: teams.away.id,
+      name: teams.away.name,
+      crest: teams.away.logo,
+    },
+    score: {
+      home: goals.home,
+      away: goals.away,
+    },
+  };
+};
+
+const fetchCurrentFixtures = async () => {
+  const { premierLeague } = LEAGUES;
+  const response = await apiClient.get("/fixtures", {
+    params: {
+      league: premierLeague.id,
+      season: premierLeague.season,
+      round: "current",
+    },
+  });
+
+  const raw = response.data.response;
+  const matchweek = raw.length > 0 ? raw[0].league.round : null;
+  const fixtures = raw.map(transformFixture);
+
+  return {
+    league: premierLeague.name,
+    leagueId: premierLeague.id,
+    season: premierLeague.season,
+    matchweek,
+    fixtures,
+  };
+};
+
+module.exports = { fetchCurrentFixtures };

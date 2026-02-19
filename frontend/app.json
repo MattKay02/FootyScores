@@ -1,0 +1,14 @@
+{
+  "expo": {
+    "name": "FootyScores",
+    "slug": "footyscores",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "platforms": ["ios"],
+    "scheme": "footyscores",
+    "ios": {
+      "bundleIdentifier": "com.footyscores.app",
+      "supportsTablet": false
+    }
+  }
+}
