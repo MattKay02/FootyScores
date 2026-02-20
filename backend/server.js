@@ -5,6 +5,7 @@ const cors = require("cors");
 const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
 const fixturesRouter = require("./routes/fixtures");
+const standingsRouter = require("./routes/standings");
 const { startScheduler } = require("./scheduler/refreshScheduler");
 const { get } = require("./cache/store");
 
@@ -23,6 +24,7 @@ const limiter = rateLimit({
 });
 
 app.use("/fixtures", limiter, fixturesRouter);
+app.use("/standings", limiter, standingsRouter);
 app.use("/health", limiter);
 
 app.get("/health", (req, res) => {
