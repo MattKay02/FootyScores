@@ -1,4 +1,5 @@
 import { StyleSheet, Text, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { colours } from '../constants/colours';
 
 function parseMatchweekLabel(matchweek) {
@@ -10,8 +11,10 @@ function parseMatchweekLabel(matchweek) {
 }
 
 export default function MatchweekHeader({ matchweek }) {
+  const insets = useSafeAreaInsets();
+
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { paddingTop: insets.top + 16 }]}>
       <Text style={styles.leagueLabel}>PREMIER LEAGUE</Text>
       <Text style={styles.label}>{parseMatchweekLabel(matchweek)}</Text>
     </View>
@@ -22,7 +25,6 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: colours.background,
     paddingHorizontal: 16,
-    paddingTop: 16,
     paddingBottom: 12,
   },
   leagueLabel: {

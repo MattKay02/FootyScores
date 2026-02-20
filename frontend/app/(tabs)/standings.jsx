@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { AppState, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { colours } from '../../constants/colours';
 import { fetchStandings } from '../../services/api';
 import StandingsTable from '../../components/StandingsTable';
@@ -11,6 +12,7 @@ export default function StandingsScreen() {
   const [error, setError] = useState(null);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const appState = useRef(AppState.currentState);
+  const insets = useSafeAreaInsets();
 
   async function loadStandings() {
     try {
@@ -65,7 +67,7 @@ export default function StandingsScreen() {
 
   return (
     <View style={styles.screen}>
-      <View style={styles.screenHeader}>
+      <View style={[styles.screenHeader, { paddingTop: insets.top + 16 }]}>
         <Text style={styles.leagueLabel}>PREMIER LEAGUE</Text>
         <Text style={styles.screenTitle}>Standings</Text>
       </View>
@@ -85,7 +87,6 @@ const styles = StyleSheet.create({
   },
   screenHeader: {
     paddingHorizontal: 16,
-    paddingTop: 16,
     paddingBottom: 12,
   },
   leagueLabel: {
