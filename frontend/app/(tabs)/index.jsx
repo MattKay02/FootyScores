@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 import { AppState, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { colours } from '../constants/colours';
-import { fetchFixtures } from '../services/api';
-import FixtureList from '../components/FixtureList';
-import LoadingState from '../components/LoadingState';
-import MatchweekHeader from '../components/MatchweekHeader';
+import { colours } from '../../constants/colours';
+import { fetchFixtures } from '../../services/api';
+import FixtureList from '../../components/FixtureList';
+import LoadingState from '../../components/LoadingState';
+import MatchweekHeader from '../../components/MatchweekHeader';
 
 export default function HomeScreen() {
   const [fixtures, setFixtures] = useState([]);
