@@ -61,4 +61,37 @@ const fetchCurrentFixtures = async () => {
   };
 };
 
-module.exports = { fetchCurrentFixtures };
+const transformStandingEntry = (entry) => ({
+  rank: entry.rank,
+  team: {
+    id: entry.team.id,
+    name: entry.team.name,
+    crest: entry.team.logo,
+  },
+  played: entry.all.played,
+  win: entry.all.win,
+  draw: entry.all.draw,
+  lose: entry.all.lose,
+  goalsDiff: entry.goalsDiff,
+  points: entry.points,
+});
+
+const fetchStandings = async () => {
+  const { premierLeague } = LEAGUES;
+  const response = await apiClient.get("/standings", {
+    params: {
+      league: premierLeague.id,
+      season: premierLeague.season,
+    },
+  });
+
+  const raw = response.data.response[0].league.standings[0];
+  return {
+    league: premierLeague.name,
+    leagueId: premierLeague.id,
+    season: premierLeague.season,
+    standings: raw.map(transformStandingEntry),
+  };
+};
+
+module.exports = { fetchCurrentFixtures, fetchStandings };
