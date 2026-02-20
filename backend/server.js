@@ -2,6 +2,8 @@ require("dotenv").config();
 
 const express = require("express");
 const cors = require("cors");
+const helmet = require("helmet");
+const rateLimit = require("express-rate-limit");
 const fixturesRouter = require("./routes/fixtures");
 const { startScheduler } = require("./scheduler/refreshScheduler");
 const { get } = require("./cache/store");
@@ -9,10 +11,19 @@ const { get } = require("./cache/store");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+app.use(helmet());
 app.use(cors());
 app.use(express.json());
 
-app.use("/fixtures", fixturesRouter);
+const limiter = rateLimit({
+  windowMs: 60 * 1000,
+  max: 60,
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+app.use("/fixtures", limiter, fixturesRouter);
+app.use("/health", limiter);
 
 app.get("/health", (req, res) => {
   const { cachedAt } = get();
