@@ -8,7 +8,7 @@ const LIVE_STATUSES = new Set(["1H", "HT", "2H", "ET"]);
 const router = express.Router();
 
 router.post("/premier-league/refresh", async (req, res) => {
-  if (process.env.NODE_ENV !== "development") {
+  if (process.env.NODE_ENV === "production") {
     return res.status(404).json({ error: "Not found" });
   }
 

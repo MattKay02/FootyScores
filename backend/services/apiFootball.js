@@ -44,7 +44,7 @@ const fetchCurrentFixtures = async () => {
     params: {
       league: premierLeague.id,
       season: premierLeague.season,
-      round: "current",
+      round: "Regular Season - 38",
     },
   });
 
