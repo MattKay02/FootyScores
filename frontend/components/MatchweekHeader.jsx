@@ -4,9 +4,7 @@ import { colours } from '../constants/colours';
 function parseMatchweekLabel(matchweek) {
   if (!matchweek) return '';
   const separatorIndex = matchweek.indexOf(' - ');
-  if (separatorIndex === -1) {
-    return matchweek;
-  }
+  if (separatorIndex === -1) return matchweek;
   const number = matchweek.slice(separatorIndex + 3);
   return `Matchweek ${number}`;
 }
@@ -14,6 +12,7 @@ function parseMatchweekLabel(matchweek) {
 export default function MatchweekHeader({ matchweek }) {
   return (
     <View style={styles.container}>
+      <Text style={styles.leagueLabel}>PREMIER LEAGUE</Text>
       <Text style={styles.label}>{parseMatchweekLabel(matchweek)}</Text>
     </View>
   );
@@ -24,7 +23,14 @@ const styles = StyleSheet.create({
     backgroundColor: colours.background,
     paddingHorizontal: 16,
     paddingTop: 16,
-    paddingBottom: 16,
+    paddingBottom: 12,
+  },
+  leagueLabel: {
+    fontSize: 11,
+    fontWeight: '600',
+    color: colours.textMuted,
+    letterSpacing: 1.2,
+    marginBottom: 4,
   },
   label: {
     color: colours.textPrimary,
