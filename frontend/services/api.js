@@ -7,3 +7,11 @@ export async function fetchFixtures() {
   }
   return response.json();
 }
+
+export async function fetchStandings() {
+  const response = await fetch(`${API_URL}/standings/premier-league`);
+  if (!response.ok) {
+    throw new Error(`Request failed with status ${response.status}`);
+  }
+  return response.json();
+}
