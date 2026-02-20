@@ -7,6 +7,27 @@ const LIVE_STATUSES = new Set(["1H", "HT", "2H", "ET"]);
 
 const router = express.Router();
 
+router.post("/premier-league/refresh", async (req, res) => {
+  if (process.env.NODE_ENV !== "development") {
+    return res.status(404).json({ error: "Not found" });
+  }
+
+  try {
+    const freshData = await fetchCurrentFixtures();
+    const liveCount = freshData.fixtures.filter((f) =>
+      LIVE_STATUSES.has(f.statusShort)
+    ).length;
+    const ttl = liveCount > 0 ? LIVE_TTL : DEFAULT_TTL;
+
+    set(freshData, ttl);
+    const { cachedAt } = get();
+    return res.json({ ...freshData, cachedAt: new Date(cachedAt).toISOString() });
+  } catch (err) {
+    console.error(`[${new Date().toISOString()}] FORCE REFRESH ERROR — ${err.message}`);
+    return res.status(502).json({ error: err.message });
+  }
+});
+
 router.get("/premier-league", async (req, res) => {
   const { data, cachedAt } = get();
 
@@ -39,6 +60,7 @@ router.get("/premier-league", async (req, res) => {
     if (data) {
       return res.json({
         league: data.league,
+        matchweek: data.matchweek,
         cachedAt: new Date(cachedAt).toISOString(),
         stale: true,
         fixtures: data.fixtures,

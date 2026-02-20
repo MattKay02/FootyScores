@@ -23,7 +23,7 @@ The app never calls API-Football directly. The app only ever talks to this backe
 - **Runtime:** Node.js
 - **Framework:** Express
 - **Language:** JavaScript (CommonJS)
-- **Hosting:** Railway (free tier)
+- **Hosting:** Render (free tier)
 - **Cache:** In-memory (no database required at this stage)
 - **HTTP client:** node-fetch or axios
 
@@ -146,7 +146,7 @@ const LEAGUES = {
     id: 39,
     name: "Premier League",
     slug: "premier-league",
-    season: 2024
+    season: 2025
   }
 }
 ```
@@ -310,12 +310,12 @@ Returns:
 
 ---
 
-## Deployment (Railway)
+## Deployment (Render)
 
 1. Push repo to GitHub
-2. Connect GitHub repo to Railway
-3. Set environment variables in Railway dashboard (API_FOOTBALL_KEY, PORT)
-4. Railway auto-deploys on every push to main
+2. Connect GitHub repo to Render
+3. Set environment variables in Render dashboard (API_FOOTBALL_KEY, PORT)
+4. Render auto-deploys on every push to main
 5. Free tier is sufficient — this backend is extremely lightweight
 
 ---

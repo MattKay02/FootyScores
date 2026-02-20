@@ -2,6 +2,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { colours } from '../constants/colours';
 
 function parseMatchweekLabel(matchweek) {
+  if (!matchweek) return '';
   const separatorIndex = matchweek.indexOf(' - ');
   if (separatorIndex === -1) {
     return matchweek;
