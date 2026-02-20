@@ -46,7 +46,7 @@ When given a task, identify which domain it belongs to and load the correct spec
 
 | Task type | Agent | Spec file to read |
 |---|---|---|
-| Server, caching, API calls, scheduler, logging, Railway deployment | **Backend Agent** | `BACKEND.md` |
+| Server, caching, API calls, scheduler, logging, Render deployment | **Backend Agent** | `BACKEND.md` |
 | UI components, screens, navigation, styling, Expo config, App Store | **Frontend Agent** | `FRONTEND.md` |
 | Both domains affected | **Both agents** | Both spec files |
 
@@ -139,7 +139,7 @@ GET /fixtures/premier-league
 | Mobile app | React Native + Expo SDK |
 | Routing | Expo Router |
 | Backend | Node.js + Express |
-| Hosting | Railway (free tier) |
+| Hosting | Render (free tier) |
 | Data source | API-Football (api-sports.io) free plan |
 | Cache | In-memory (no database) |
 
@@ -193,12 +193,13 @@ FootyScores/                    ← root repo
 ```
 API_FOOTBALL_KEY=your_key_here
 PORT=3000
+NODE_ENV=development
 ```
 
 ### Frontend (.env or app.config.js)
 ```
-EXPO_PUBLIC_API_URL=http://localhost:3000        ← development
-EXPO_PUBLIC_API_URL=https://your-app.railway.app ← production
+EXPO_PUBLIC_API_URL=http://localhost:3000         ← development
+EXPO_PUBLIC_API_URL=https://your-app.onrender.com ← production
 ```
 
 ---
@@ -222,7 +223,7 @@ Do not build any of the following regardless of how logical they seem:
 
 ## Definition of Done for the Full MVP
 
-- [ ] Backend deployed on Railway and returning correct fixture JSON
+- [ ] Backend deployed on Render and returning correct fixture JSON
 - [ ] Frontend connects to backend and displays current matchweek
 - [ ] Each fixture card shows teams, score or kickoff time, and status
 - [ ] Live matches show a live indicator

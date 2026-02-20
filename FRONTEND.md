@@ -43,6 +43,7 @@ frontend/
 │   └── config.js               ← API URL and other config
 ├── assets/
 │   └── (app icons, splash)
+├── metro.config.js             ← Metro bundler config (Windows resolver fix)
 ├── app.json                    ← Expo config
 └── package.json
 ```
@@ -159,7 +160,7 @@ export const API_URL = process.env.EXPO_PUBLIC_API_URL || 'http://localhost:3000
 ```
 
 During development this points to localhost.
-In production this points to the Railway backend URL.
+In production this points to the Render backend URL.
 Never hardcode either URL anywhere else in the codebase.
 
 ---
@@ -268,10 +269,13 @@ const [isRefreshing, setIsRefreshing] = useState(false);
 ```bash
 npx create-expo-app@latest frontend
 cd frontend
-npx expo install expo-router
-npx expo install expo-image
-npx expo install @expo/vector-icons
+npx expo install expo-router expo-image @expo/vector-icons
+npx expo install expo-font expo-constants expo-linking react-native-safe-area-context react-native-screens
+npm install --legacy-peer-deps
 ```
+
+> **Note:** `--legacy-peer-deps` is required due to a peer dependency conflict between
+> `react@19.1.0` (pinned by Expo SDK 54) and `react-dom@19.2.4` pulled in transitively.
 
 No other packages. Do not install styling libraries, state management libraries, or animation libraries beyond what React Native provides built-in.
 

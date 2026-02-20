@@ -60,6 +60,7 @@ footyscores-backend/
 # .env.example
 API_FOOTBALL_KEY=your_api_key_here
 PORT=3000
+NODE_ENV=development
 ```
 
 The API key is obtained free from: https://dashboard.api-football.com
@@ -67,11 +68,23 @@ No credit card required. Free plan includes 100 requests/day.
 
 ---
 
-## The One Endpoint
+## Endpoints
 
 ```
 GET /fixtures/premier-league
 ```
+
+Main data endpoint — returns cached fixture data.
+
+```
+POST /fixtures/premier-league/refresh
+```
+
+Force refresh endpoint — bypasses cache TTL and fetches fresh data immediately.
+**Dev only:** returns 404 when `NODE_ENV=production`. Use during development when the
+scheduler is inactive (outside matchweek windows).
+
+
 
 **Response shape the app expects:**
 
@@ -135,8 +148,12 @@ x-apisports-key: {API_FOOTBALL_KEY}
 
 **Endpoint used:**
 ```
-GET /fixtures?league=39&season=2024&round=current
+GET /fixtures?league=39&season=2024&round=Regular Season - 38
 ```
+
+> **Dev note:** Season is pinned to 2024 (2024/25) because the API-Football free plan
+> does not grant access to season 2025. Round is hardcoded to the last matchweek of that
+> season. When upgrading to a paid plan, revert to `season: 2025` and `round: current`.
 
 **League constant:**
 ```javascript
@@ -146,7 +163,7 @@ const LEAGUES = {
     id: 39,
     name: "Premier League",
     slug: "premier-league",
-    season: 2025
+    season: 2024
   }
 }
 ```
@@ -247,6 +264,7 @@ Logger is a simple utility in `utils/logger.js`. Use `console.log` with ISO time
 // Still return 200 with stale data rather than crashing the app
 {
   "league": "Premier League",
+  "matchweek": "Regular Season - 38",
   "cachedAt": "2025-02-19T14:30:00.000Z",
   "stale": true,
   "fixtures": [ ... ]
@@ -346,4 +364,4 @@ Backend is complete when:
 - [ ] `GET /health` returns uptime and cache age
 - [ ] Error handling returns stale cache or 503 gracefully
 - [ ] `.env` is gitignored, `.env.example` is committed
-- [ ] Deployed and reachable on Railway
+- [ ] Deployed and reachable on Render
